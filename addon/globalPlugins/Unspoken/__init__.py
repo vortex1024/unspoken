@@ -89,10 +89,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def _hook_getSpeechTextForProperties(self, reason: OutputReason = OutputReason.QUERY, *args, **kwargs):
 		#if config.conf["virtualBuffers"]["autoFocusFocusableElements"]:
 		role = kwargs.get('role', None)
-		sa=kwargs
-		lh.log.info(str(sa))
+#		sa=kwargs
+		#lh.log.info(str(sa))
+		isOffScreen=16777216 in kwargs.get('states', [])
 		if role:
-			if 'role' in kwargs and role in sounds:
+			if 'role' in kwargs and role in sounds and not isOffScreen:
 				del kwargs['role']
 				clas=type("nobject",(object,),{"role":role, "location":None})
 				self.play_object(clas())
